@@ -63,7 +63,7 @@
             </div>
             <div class="admin-panel">
                 <h3 style="margin-top:0;">Lista de Espera (<span id="count">0</span>/15)</h3>
-                <div class="pool-grid" id="poolDisplay">Cargando desde la nube...</div>
+                <div class="pool-grid" id="poolDisplay">Cargando...</div>
             </div>
             <button class="btn-start" id="startBtn" onclick="iniciarDraft()" disabled>INICIAR DRAFT POR TURNOS</button>
         </div>
@@ -233,16 +233,16 @@
                 const box = document.getElementById(`team-${i}`);
                 if (teamColors[i]) box.style.border = `4px solid ${teamColors[i]}`;
                 
-                // Lista de jugadores con sus estrellas individuales
+                // Mostramos solo Nombre y valores numéricos (opcional), SIN estrellas individuales
                 box.querySelector(".team-list").innerHTML = t.map(p => `
-                    <div style="padding:8px 0; border-bottom:1px solid #333; display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-size:14px;">${p.isGK?'🧤':'👕'} <strong>${p.name}</strong></span>
-                        <div style="text-align:right; font-size:9px; opacity:0.7;">
-                            A: ${getStarHTML(p.atk)}<br>D: ${getStarHTML(p.def)}
+                    <div style="padding:10px 0; border-bottom:1px solid #333; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:15px;">${p.isGK?'🧤':'👕'} <strong>${p.name}</strong></span>
+                        <div style="text-align:right; font-size:11px; opacity:0.6;">
+                            A:${p.atk} D:${p.def}
                         </div>
                     </div>`).join("");
 
-                // Cálculo de promedios
+                // Mantenemos los promedios del equipo con estrellas
                 if(t.length > 0) {
                     const avgAtk = (t.reduce((s, p) => s + p.atk, 0) / t.length).toFixed(1);
                     const avgDef = (t.reduce((s, p) => s + p.def, 0) / t.length).toFixed(1);
@@ -283,7 +283,7 @@
             const area = document.getElementById("downloadArea");
             html2canvas(area, { backgroundColor: "#111", scale: 2 }).then(canvas => {
                 const link = document.createElement("a");
-                link.download = "Draft_Resumen_Stars.png";
+                link.download = "Draft_Final.png";
                 link.href = canvas.toDataURL();
                 link.click();
             });
